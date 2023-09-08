@@ -1,5 +1,6 @@
 import React from "react";
-import EventsList from "./EventsList";
+//import EventsList from "./EventsList";
+import NewEventForm from "./NewEventForm";
 
 class EventControll extends React.Component {
     constructor(props)  {
@@ -8,7 +9,7 @@ class EventControll extends React.Component {
     }
 
     render() {
-     let currentlyVisible = <EventsList/>;
+     let currentlyVisible = <NewEventForm/>;
 
      return (
          <React.Fragment>
