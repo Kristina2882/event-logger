@@ -6,6 +6,8 @@ return (
     <React.Fragment>
         <h4>{props.name}</h4>
         <p>{props.description}</p>
+        <p>Occurence: {props.numberOfEvent}</p>
+        <button>+</button> <button>-</button>
         <hr />
     </React.Fragment>
 
@@ -14,7 +16,8 @@ return (
 
 Event.propTypes = {
     name: PropTypes.string,
-    description: PropTypes.string
+    description: PropTypes.string,
+    numberOfEvent: PropTypes.number
 }
 
 export default Event;

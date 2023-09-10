@@ -1,19 +1,23 @@
 import React from "react";
 import Event from "./Event";
+import PropTypes from "prop-types";
 
-function EventsList() {
+function EventsList(props) {
     return (
         <React.Fragment>
+         {props.eventList.map((event) => {
             <Event
-            name="Coding"
-            description="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur sit amet diam in nisi faucibus viverra.  "
-            />
-            <Event
-            name="Cooking"
-            description="Sed efficitur tincidunt leo, non commodo erat feugiat vel."
-            />
+            name = {event.name} 
+            description={event.description}
+            key = {event.id}
+            id = {event.id}/>
+         })}
         </React.Fragment>
     );
+}
+
+EventsList.propTypes = {
+    eventList: PropTypes.array
 }
 
 export default EventsList;

@@ -1,14 +1,20 @@
 import React from "react";
 import ReusableForm from "./ReusableForm";
+import PropTypes from "prop-types"; 
+import {v4} from "uuid";
 
-function NewEventForm() {
+function NewEventForm(props) {
 
     function newFormSubmissionHandler(event) {
         event.preventDefault();
+        props.onNewEventCreation({
+            name: event.target.name.value,
+            description: event.target.description.value,
+            numberOfEvent: 0,
+            id: v4()
+        });
     }
-    return (
-        
-
+    return (  
         <React.Fragment>
             <ReusableForm
             formSubmissionHandler={newFormSubmissionHandler}
@@ -16,6 +22,11 @@ function NewEventForm() {
             />
         </React.Fragment>
     );
+}
+
+
+NewEventForm.propTypes = {
+    onNewEventCreation: PropTypes.func
 }
 
 export default NewEventForm;
