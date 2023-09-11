@@ -43,12 +43,20 @@ class EventControll extends React.Component {
         });
       }
 
+      handleDeleteClick = () => {
+        const newMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id);
+        this.setState({
+          selectedEvent: null,
+          mainEventList: newMainEventList
+        });
+      }
+
     render() {
      let currentlyVisible = null;
      let buttonText = "";
 
      if (this.state.selectedEvent != null) {
-      currentlyVisible = <EventDetail event = {this.state.selectedEvent}/>;
+      currentlyVisible = <EventDetail event = {this.state.selectedEvent} onClickDelete = {this.handleDeleteClick}/>;
       buttonText = "To events list";
      }
 
