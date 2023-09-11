@@ -5,13 +5,14 @@ import PropTypes from "prop-types";
 function EventsList(props) {
     return (
         <React.Fragment>
-         {props.eventList.map((event) => {
+         {props.eventList.map((event) => 
             <Event
-            name = {event.name} 
+            name = {event.name}
             description={event.description}
             key = {event.id}
-            id = {event.id}/>
-         })}
+            id = {event.id}
+            numberOfEvent={event.numberOfEvent}/>
+         )}
         </React.Fragment>
     );
 }

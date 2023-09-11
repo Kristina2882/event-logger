@@ -22,7 +22,7 @@ class EventControll extends React.Component {
         this.setState({
            mainEventList: newEventList,
            newEventFormVisible: false
-        })
+        });
       }
     
 
