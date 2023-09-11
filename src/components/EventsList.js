@@ -7,6 +7,7 @@ function EventsList(props) {
         <React.Fragment>
          {props.eventList.map((event) => 
             <Event
+            whenEventClicked= {props.onEventSelection}
             name = {event.name}
             description={event.description}
             key = {event.id}
@@ -18,7 +19,8 @@ function EventsList(props) {
 }
 
 EventsList.propTypes = {
-    eventList: PropTypes.array
+    eventList: PropTypes.array,
+    onEventSelection: PropTypes.func
 }
 
 export default EventsList;

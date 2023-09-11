@@ -4,11 +4,12 @@ import PropTypes from "prop-types";
 function Event(props) {
 return (
     <React.Fragment>
+        <div onClick={() => props.whenEventClicked(props.id)}>
         <h4>{props.name}</h4>
         <p>{props.description}</p>
         <p>Occurence: {props.numberOfEvent}</p>
-        <button>+</button> <button>-</button>
         <hr />
+        </div>
     </React.Fragment>
 
 );
@@ -17,7 +18,8 @@ return (
 Event.propTypes = {
     name: PropTypes.string,
     description: PropTypes.string,
-    numberOfEvent: PropTypes.number
+    numberOfEvent: PropTypes.number,
+    whenEventClicked: PropTypes.func
 }
 
 export default Event;
