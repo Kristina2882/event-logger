@@ -14,7 +14,6 @@ function EditEventForm(props) {
                 numberOfEvent: props.event.numberOfEvent
             }
         )
-        console.log("Event is being edited");
 
     }
 

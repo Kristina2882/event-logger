@@ -3,6 +3,8 @@ import EventsList from "./EventsList";
 import NewEventForm from "./NewEventForm";
 import EventDetail from "./EventDetail";
 import EditEventForm from "./EditEventForm";
+import Counter from "./Counter";
+import { Container, Col, Row } from "react-bootstrap";
 
 class EventControll extends React.Component {
     constructor(props)  {
@@ -11,7 +13,8 @@ class EventControll extends React.Component {
         newEventFormVisible: false,
         mainEventList: [], 
         selectedEvent: null, 
-        editing: false
+        editing: false,
+        eventNumberCounter: 0
       };
     }
 
@@ -47,10 +50,15 @@ class EventControll extends React.Component {
       }
 
       handleDeleteClick = (id) => {
+        let updatedEventNumberCounter = this.state.eventNumberCounter;
+        let numberToDelete = this.state.mainEventList.filter(event => event.id === id)[0].numberOfEvent;
+        updatedEventNumberCounter -= numberToDelete;
         const newMainEventList = this.state.mainEventList.filter(event => event.id !== id);
+
         this.setState({
           selectedEvent: null,
-          mainEventList: newMainEventList
+          mainEventList: newMainEventList,
+          eventNumberCounter: updatedEventNumberCounter
         });
       }
 
@@ -69,6 +77,43 @@ class EventControll extends React.Component {
         })
       }
 
+      handlePlusClick = () => {
+         let eventCounter = this.state.selectedEvent.numberOfEvent;
+         eventCounter++;
+         let updatedEvent = this.state.selectedEvent;
+         updatedEvent.numberOfEvent = eventCounter;
+         let updatedMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id).concat(updatedEvent);
+         let updatedEventNumberCounter = this.state.eventNumberCounter;
+         updatedEventNumberCounter++;
+        this.setState({
+          selectedEvent: updatedEvent,
+          mainEventList: updatedMainEventList,
+          eventNumberCounter: updatedEventNumberCounter
+        });
+      }
+
+      handleMinusClick = () => {
+        let eventCounter = this.state.selectedEvent.numberOfEvent;
+        eventCounter--;
+        if (eventCounter < 0) {
+          this.setState({
+          selectedEvent: null
+          });
+        }
+        else {
+        let updatedEvent = this.state.selectedEvent;
+        updatedEvent.numberOfEvent = eventCounter;
+        let updatedMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id).concat(updatedEvent);
+        let updatedEventNumberCounter = this.state.eventNumberCounter;
+         updatedEventNumberCounter--;
+       this.setState({
+         selectedEvent: updatedEvent,
+         mainEventList: updatedMainEventList,
+         eventNumberCounter: updatedEventNumberCounter
+       });
+      }
+     }
+
     render() {
      let currentlyVisible = null;
      let buttonText = "";
@@ -79,7 +124,11 @@ class EventControll extends React.Component {
      }
 
      else if (this.state.selectedEvent != null) {
-      currentlyVisible = <EventDetail event = {this.state.selectedEvent} onClickDelete = {this.handleDeleteClick} onEditClick = {this.handleEditClick}/>;
+      currentlyVisible = <EventDetail event = {this.state.selectedEvent} 
+      onClickDelete = {this.handleDeleteClick} 
+      onEditClick = {this.handleEditClick} 
+      onPlusClick = {this.handlePlusClick}
+      onMinusClick = {this.handleMinusClick}/>;
       buttonText = "To events list";
      }
 
@@ -95,8 +144,15 @@ class EventControll extends React.Component {
 
      return (
          <React.Fragment>
+          <Container>
+            <Row>
+           <Col>
             {currentlyVisible}
             <button onClick={this.handleClick}>{buttonText}</button>
+            </Col>
+            <Col> <Counter eventsNumber={this.state.eventNumberCounter}/></Col>
+            </Row>
+            </Container>
          </React.Fragment>
      );
     }

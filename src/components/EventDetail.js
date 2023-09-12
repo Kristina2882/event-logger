@@ -8,7 +8,7 @@ function EventDetail(props) {
          <h4>{event.name}</h4>
         <p>{event.description}</p>
         <p>Occurence: {event.numberOfEvent}</p>
-        <button>+</button>  <button>-</button>
+        <button onClick={props.onPlusClick}>+</button>  <button onClick={props.onMinusClick}>-</button>
         <hr />
         <button onClick={() => props.onEditClick(event)}>Edit</button> <button onClick={() => props.onClickDelete(event.id)}>Delete</button>
         </React.Fragment>
@@ -19,7 +19,9 @@ function EventDetail(props) {
 EventDetail.propTypes = {
     event: PropTypes.object,
     onClickDelete: PropTypes.func,
-    onEditClick: PropTypes.func
+    onEditClick: PropTypes.func,
+    onPlusClick: PropTypes.func, 
+    onMinusClick: PropTypes.func
 }
 
 export default EventDetail;
