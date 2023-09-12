@@ -2,6 +2,7 @@ import React from "react";
 import EventsList from "./EventsList";
 import NewEventForm from "./NewEventForm";
 import EventDetail from "./EventDetail";
+import EditEventForm from "./EditEventForm";
 
 class EventControll extends React.Component {
     constructor(props)  {
@@ -9,7 +10,8 @@ class EventControll extends React.Component {
       this.state = {
         newEventFormVisible: false,
         mainEventList: [], 
-        selectedEvent: null
+        selectedEvent: null, 
+        editing: false
       };
     }
 
@@ -17,7 +19,8 @@ class EventControll extends React.Component {
       if (this.state.selectedEvent != null) {
          this.setState({
           newEventFormVisible: false,
-          selectedEvent: null
+          selectedEvent: null,
+          editing: false
          });
       }
  else  
@@ -43,20 +46,40 @@ class EventControll extends React.Component {
         });
       }
 
-      handleDeleteClick = () => {
-        const newMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id);
+      handleDeleteClick = (id) => {
+        const newMainEventList = this.state.mainEventList.filter(event => event.id !== id);
         this.setState({
           selectedEvent: null,
           mainEventList: newMainEventList
         });
       }
 
+      handleEditClick = () => {
+        this.setState({
+         editing: true
+        });
+      }
+
+      handleEditEvent = (editedEvent) => {
+        const newMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id).concat(editedEvent);
+        this.setState({
+          selectedEvent:null,
+          editing: false,
+          mainEventList: newMainEventList
+        })
+      }
+
     render() {
      let currentlyVisible = null;
      let buttonText = "";
 
-     if (this.state.selectedEvent != null) {
-      currentlyVisible = <EventDetail event = {this.state.selectedEvent} onClickDelete = {this.handleDeleteClick}/>;
+     if (this.state.editing) {
+       currentlyVisible = <EditEventForm event={this.state.selectedEvent} onEditEvent={this.handleEditEvent}/>
+       buttonText="To events list";
+     }
+
+     else if (this.state.selectedEvent != null) {
+      currentlyVisible = <EventDetail event = {this.state.selectedEvent} onClickDelete = {this.handleDeleteClick} onEditClick = {this.handleEditClick}/>;
       buttonText = "To events list";
      }
 

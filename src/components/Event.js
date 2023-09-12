@@ -19,7 +19,8 @@ Event.propTypes = {
     name: PropTypes.string,
     description: PropTypes.string,
     numberOfEvent: PropTypes.number,
-    whenEventClicked: PropTypes.func
+    whenEventClicked: PropTypes.func,
+    id: PropTypes.string
 }
 
 export default Event;
