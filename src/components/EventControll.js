@@ -5,13 +5,13 @@ import EventDetail from "./EventDetail";
 import EditEventForm from "./EditEventForm";
 import Counter from "./Counter";
 import { Container, Col, Row } from "react-bootstrap";
+import {connect} from 'react-redux';
 
 class EventControll extends React.Component {
     constructor(props)  {
       super(props);
       this.state = {
         newEventFormVisible: false,
-        mainEventList: [], 
         selectedEvent: null, 
         editing: false,
         eventNumberCounter: 0
@@ -34,9 +34,17 @@ class EventControll extends React.Component {
     }
 
     handleAddEvent = (newEvent) =>    {
-        const newEventList = this.state.mainEventList.concat(newEvent);
+        const {dispatch} = this.props;
+        const {name, description, numberOfEvent, id} = newEvent;
+        const action = {
+         type: 'ADD_EVENT',
+         name: name,
+         description: description,
+         numberOfEvent: numberOfEvent,
+         id: id
+        }
+        dispatch(action);
         this.setState({
-           mainEventList: newEventList,
            newEventFormVisible: false, 
            selectedEvent: null
         });
@@ -51,13 +59,16 @@ class EventControll extends React.Component {
 
       handleDeleteClick = (id) => {
         let updatedEventNumberCounter = this.state.eventNumberCounter;
-        let numberToDelete = this.state.mainEventList.filter(event => event.id === id)[0].numberOfEvent;
-        updatedEventNumberCounter -= numberToDelete;
-        const newMainEventList = this.state.mainEventList.filter(event => event.id !== id);
-
+        // let numberToDelete = this.state.mainEventList.filter(event => event.id === id)[0].numberOfEvent;
+        // updatedEventNumberCounter -= numberToDelete;
+        const {dispatch} = this.props;
+        const action = {
+          type: 'DELETE_EVENT',
+          id: id
+        }
+        dispatch(action);
         this.setState({
           selectedEvent: null,
-          mainEventList: newMainEventList,
           eventNumberCounter: updatedEventNumberCounter
         });
       }
@@ -69,11 +80,19 @@ class EventControll extends React.Component {
       }
 
       handleEditEvent = (editedEvent) => {
-        const newMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id).concat(editedEvent);
+        const {dispatch} = this.props;
+        const {name, description, numberOfEvent, id} = editedEvent;
+        const action = {
+          type: 'ADD_EVENT',
+          name: name,
+          description: description,
+          numberOfEvent: numberOfEvent,
+          id: id
+        }
+        dispatch(action);
         this.setState({
           selectedEvent:null,
-          editing: false,
-          mainEventList: newMainEventList
+          editing: false
         })
       }
 
@@ -157,5 +176,7 @@ class EventControll extends React.Component {
      );
     }
 }
+
+EventControll = connect()(EventControll);
 
 export default EventControll;
