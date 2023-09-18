@@ -6,6 +6,7 @@ import EditEventForm from "./EditEventForm";
 import Counter from "./Counter";
 import { Container, Col, Row } from "react-bootstrap";
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
 class EventControll extends React.Component {
     constructor(props)  {
@@ -51,7 +52,7 @@ class EventControll extends React.Component {
       }
     
       handleEventSelection = (id) => {
-        const newSelectedEvent = this.state.mainEventList.filter(event => event.id === id)[0];
+        const newSelectedEvent = this.props.mainEventList[id];
         this.setState({
          selectedEvent: newSelectedEvent
         });
@@ -59,8 +60,8 @@ class EventControll extends React.Component {
 
       handleDeleteClick = (id) => {
         let updatedEventNumberCounter = this.state.eventNumberCounter;
-        // let numberToDelete = this.state.mainEventList.filter(event => event.id === id)[0].numberOfEvent;
-        // updatedEventNumberCounter -= numberToDelete;
+        let numberToDelete = this.props.mainEventList[id].numberOfEvent;
+        updatedEventNumberCounter -= numberToDelete;
         const {dispatch} = this.props;
         const action = {
           type: 'DELETE_EVENT',
@@ -101,12 +102,11 @@ class EventControll extends React.Component {
          eventCounter++;
          let updatedEvent = this.state.selectedEvent;
          updatedEvent.numberOfEvent = eventCounter;
-         let updatedMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id).concat(updatedEvent);
+         Object.values(this.props.mainEventList).filter(event => event.id !== this.state.selectedEvent.id).concat(updatedEvent);
          let updatedEventNumberCounter = this.state.eventNumberCounter;
          updatedEventNumberCounter++;
         this.setState({
           selectedEvent: updatedEvent,
-          mainEventList: updatedMainEventList,
           eventNumberCounter: updatedEventNumberCounter
         });
       }
@@ -122,12 +122,11 @@ class EventControll extends React.Component {
         else {
         let updatedEvent = this.state.selectedEvent;
         updatedEvent.numberOfEvent = eventCounter;
-        let updatedMainEventList = this.state.mainEventList.filter(event => event.id !== this.state.selectedEvent.id).concat(updatedEvent);
+        Object.values(this.props.mainEventList).filter(event => event.id !== this.state.selectedEvent.id).concat(updatedEvent);
         let updatedEventNumberCounter = this.state.eventNumberCounter;
          updatedEventNumberCounter--;
        this.setState({
          selectedEvent: updatedEvent,
-         mainEventList: updatedMainEventList,
          eventNumberCounter: updatedEventNumberCounter
        });
       }
@@ -156,7 +155,7 @@ class EventControll extends React.Component {
       buttonText = "To events list";
      }
      else {
-      currentlyVisible = <EventsList eventList = {this.state.mainEventList} onEventSelection= {this.handleEventSelection}/>
+      currentlyVisible = <EventsList eventList = {this.props.mainEventList} onEventSelection= {this.handleEventSelection}/>
       buttonText="Add event";
      }
 
@@ -177,6 +176,16 @@ class EventControll extends React.Component {
     }
 }
 
-EventControll = connect()(EventControll);
+EventControll.propTypes = {
+  mainEventList: PropTypes.object
+}
+
+const mapStateToProps = state => {
+  return {
+    mainEventList: state
+  }
+}
+
+EventControll = connect(mapStateToProps)(EventControll);
 
 export default EventControll;

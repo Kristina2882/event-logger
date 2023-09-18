@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 function EventsList(props) {
     return (
         <React.Fragment>
-         {props.eventList.map((event) => 
+         {Object.values(props.eventList).map((event) => 
             <Event
             whenEventClicked= {props.onEventSelection}
             name = {event.name}
@@ -19,7 +19,7 @@ function EventsList(props) {
 }
 
 EventsList.propTypes = {
-    eventList: PropTypes.array,
+    eventList: PropTypes.object,
     onEventSelection: PropTypes.func
 }
 
