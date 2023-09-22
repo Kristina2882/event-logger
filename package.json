@@ -4,6 +4,7 @@
   "repository": {
     "url": "git+https://github.com/Kristina2882/event-logger.git"
   },
+  "homepage": "https://Kristina2882.github.io/event-logger",
   "private": false,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
