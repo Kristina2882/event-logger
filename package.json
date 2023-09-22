@@ -2,7 +2,7 @@
   "name": "event-logger",
   "version": "0.1.0",
   "repository": {
-    "url": "git+https://github.com/Kristina2882/event-loger.git"
+    "url": "git+https://github.com/Kristina2882/event-logger.git"
   },
   "private": true,
   "dependencies": {
